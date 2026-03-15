@@ -1,138 +1,255 @@
+🌟 Key Capabilities
+🤖 Intelligent Agent System
 
-## 🌟 Features
+This application is powered by a dual-agent architecture designed for medical report understanding and interaction.
 
-- **Agent-based architecture**
-  - **Analysis Agent**: Report analysis with in-context learning from previous analyses and a built-in knowledge base
-  - **Chat Agent**: RAG-powered follow-up Q&A over your report (FAISS + HuggingFace embeddings)
-- **Multi-model cascade** via Groq with automatic fallback (primary → secondary → tertiary → fallback)
-- **Chat sessions**: Create multiple analysis sessions; each session stores report, analysis, and follow-up messages in Supabase
-- **Report sources**: Upload your own PDF or use the built-in sample report for quick testing
-- **PDF handling**: Upload up to 20MB, max 50 pages; validation for file type and medical-report content
-- **Daily analysis limit**: Configurable cap (default 15/day) with countdown in the sidebar
-- **Secure auth**: Supabase Auth (sign up / sign in), session validation, and configurable session timeout
-- **Session history**: View, switch, and delete past sessions; report text persisted for follow-up chat across reloads
-- **Modern UI**: Responsive Streamlit app with sidebar session list, user greeting, and real-time feedback
+Analysis Engine
 
-## 🛠️ Tech Stack
+Performs detailed medical report analysis
 
-- **Frontend**: Streamlit (1.42+)
-- **AI / LLM**
-  - **Report analysis**: Groq with multi-model fallback via `ModelManager`
-    - Primary: `meta-llama/llama-4-maverick-17b-128e-instruct`
-    - Secondary: `llama-3.3-70b-versatile`
-    - Tertiary: `llama-3.1-8b-instant`
-    - Fallback: `llama3-70b-8192`
-  - **Follow-up chat**: RAG with LangChain, HuggingFace embeddings (`all-MiniLM-L6-v2`), FAISS vector store, and Groq (`llama-3.3-70b-versatile`)
-- **Database**: Supabase (PostgreSQL)
-  - Tables: `users`, `chat_sessions`, `chat_messages`
-- **Auth**: Supabase Auth, Gotrue
-- **PDF**: PDFPlumber (text extraction), filetype (file validation)
-- **Libraries**: LangChain, LangChain Community, LangChain HuggingFace, LangChain Text Splitters, sentence-transformers, FAISS (CPU)
+Uses contextual learning from previous analyses
 
-## 🚀 Installation
+Integrates a built-in medical knowledge base for better explanations
 
-#### Requirements 📋
+Interactive Chat Agent
 
-- Python 3.8+
-- Streamlit 1.42+
-- Supabase account
-- Groq API key
-- PDFPlumber, filetype
+Enables follow-up questions about the report
 
-#### Getting Started 📝
+Implements Retrieval-Augmented Generation (RAG) using FAISS vector search and HuggingFace embeddings
 
-1. Clone the repository:
+Provides contextual responses based on the uploaded report
 
-```bash
-git clone https://github.com/harshhh28/hia.git
-cd hia
-```
+🧠 Smart Model Selection
 
-2. Install dependencies:
+The system uses a multi-model cascade strategy through the Groq API.
 
-```bash
+If the primary model fails or is unavailable, the system automatically switches to fallback models.
+
+Model priority pipeline:
+
+Primary → Secondary → Tertiary → Backup Model
+
+This ensures high reliability and minimal downtime.
+
+💬 Persistent Chat Sessions
+
+Users can manage multiple analysis sessions.
+
+Each session stores:
+
+Uploaded medical report
+
+Generated analysis
+
+Chat conversation history
+
+Session data is securely stored in Supabase.
+
+📄 Flexible Report Input
+
+Users can analyze reports using two options:
+
+• Upload a custom PDF medical report
+• Use a preloaded sample report for quick testing
+
+System validation:
+
+Max file size: 20MB
+
+Max pages: 50
+
+Validates medical-report structure
+
+🔒 Secure Authentication
+
+Authentication is handled using Supabase Auth with:
+
+Secure login & registration
+
+Session validation
+
+Configurable session timeout
+
+📊 Session Management
+
+The platform keeps a history of previous analyses.
+
+Users can:
+
+Switch between sessions
+
+View previous reports
+
+Delete old sessions
+
+Continue chat conversations even after page refresh
+
+🎨 Modern User Interface
+
+The application is built with a responsive UI using Streamlit.
+
+Features include:
+
+Sidebar session manager
+
+Personalized user greeting
+
+Real-time analysis feedback
+
+Clean and intuitive layout
+
+🛠 Technology Stack
+Frontend
+
+Streamlit
+
+AI / Machine Learning
+
+Multi-model inference using Groq
+
+Retrieval-Augmented Generation with LangChain
+
+Vector search using FAISS
+
+Embeddings via Sentence Transformers
+
+Database
+
+Supabase (PostgreSQL)
+
+Database tables:
+
+users
+
+chat_sessions
+
+chat_messages
+
+Document Processing
+
+PDFPlumber
+
+File validation with filetype
+
+Core Libraries
+
+LangChain
+
+HuggingFace embeddings
+
+FAISS (CPU)
+
+sentence-transformers
+
+🚀 Installation Guide
+Prerequisites
+
+Before starting, ensure you have:
+
+Python 3.8 or higher
+
+Streamlit installed
+
+A Supabase account
+
+A Groq API key
+
+1️⃣ Clone the Repository
+git clone https://github.com/adhityamarp/AI_doctor_Agent.git
+cd AI_doctor_Agent
+2️⃣ Install Dependencies
 pip install -r requirements.txt
-```
+3️⃣ Configure Environment Variables
 
-3. Required environment variables (in `.streamlit/secrets.toml`):
+Create the file:
 
-```toml
+.streamlit/secrets.toml
+
+Add the following credentials:
+
 SUPABASE_URL = "your-supabase-url"
 SUPABASE_KEY = "your-supabase-key"
 GROQ_API_KEY = "your-groq-api-key"
-```
+4️⃣ Configure the Database
 
-4. Set up Supabase database schema:
+The project requires three database tables:
 
-The application uses three tables: `users`, `chat_sessions`, and `chat_messages`. Use the SQL script at `public/db/script.sql` to create them.
+users
+chat_sessions
+chat_messages
 
-![database schema](https://raw.githubusercontent.com/harshhh28/hia/main/public/db/schema.png)
+Run the SQL script located at:
 
-(You can turn off email confirmation on signup in Supabase: **Authentication → Providers → Email → Confirm email**.)
+public/db/script.sql
 
-5. Run the application:
+This will initialize the complete schema.
 
-```bash
-streamlit run src\main.py
-```
+5️⃣ Launch the Application
 
-## 📁 Project Structure
+Run the Streamlit app:
 
-```
-hia/
+streamlit run src/main.py
+
+After launching, open the provided local URL in your browser.
+
+📁 Project Architecture
+AI_doctor_Agent
+│
 ├── requirements.txt
 ├── README.md
-├── src/
-│   ├── main.py                 # Application entry point; chat UI and session flow
-│   ├── auth/
-│   │   ├── auth_service.py     # Supabase auth, sessions, chat message persistence
-│   │   └── session_manager.py # Session init, timeout, create/delete chat sessions
-│   ├── components/
-│   │   ├── analysis_form.py    # Report source (upload/sample), patient form, analysis trigger
-│   │   ├── auth_pages.py       # Login / signup pages
-│   │   ├── footer.py           # Footer component
-│   │   ├── header.py           # User greeting
-│   │   └── sidebar.py          # Session list, new session, daily limit, logout
-│   ├── config/
-│   │   ├── app_config.py       # App name, limits (upload, pages, analysis, timeout)
-│   │   ├── prompts.py          # Specialist prompts for report analysis
-│   │   └── sample_data.py      # Sample blood report for "Use Sample PDF"
-│   ├── services/
-│   │   └── ai_service.py       # Analysis + chat entry points; vector store caching
-│   ├── agents/
-│   │   ├── analysis_agent.py   # Report analysis, rate limits, knowledge base, in-context learning
-│   │   ├── chat_agent.py       # RAG pipeline (embeddings, FAISS, query contextualization)
-│   │   └── model_manager.py   # Groq multi-model cascade and fallback
-│   └── utils/
-│       ├── validators.py       # Email, password, PDF file and content validation
-│       └── pdf_extractor.py   # PDF text extraction and validation
-├── public/
-│   └── db/
-│       ├── script.sql          # Supabase schema (users, chat_sessions, chat_messages)
-│       └── schema.png          # Schema diagram
-```
+│
+├── src
+│   ├── main.py
+│   │
+│   ├── auth
+│   │   ├── auth_service.py
+│   │   └── session_manager.py
+│   │
+│   ├── components
+│   │   ├── analysis_form.py
+│   │   ├── auth_pages.py
+│   │   ├── header.py
+│   │   └── sidebar.py
+│   │
+│   ├── agents
+│   │   ├── analysis_agent.py
+│   │   ├── chat_agent.py
+│   │   └── model_manager.py
+│   │
+│   ├── services
+│   │   └── ai_service.py
+│   │
+│   ├── config
+│   │   ├── app_config.py
+│   │   ├── prompts.py
+│   │   └── sample_data.py
+│   │
+│   └── utils
+│       ├── validators.py
+│       └── pdf_extractor.py
+│
+└── public
+    └── db
+        ├── script.sql
+        └── schema.png
+🤝 Contributions
 
-## 👥 Contributing
+Contributions are welcome!
 
-Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on how to submit pull requests, the development workflow, coding standards, and more.
+Ways to contribute:
 
-We appreciate all contributions, from reporting bugs and improving documentation to implementing new features.
+Improve documentation
 
-## 👨‍💻 Contributors
+Report issues
 
-Thanks to all the amazing contributors who have helped improve this project!
+Suggest new features
 
-| Avatar | Name | GitHub | Role | Contributions | PR(s) | Notes |
-|--------|------|--------|------|---------------|-------|-------|
-| <img src="https://github.com/harshhh28.png" width="50px" height="50px" alt="harshhh28 avatar"/> | Harsh Gajjar | [harshhh28](https://github.com/harshhh28) | Project Creator & Maintainer | Core implementation, Documentation | N/A | Lead Developer |
-| <img src="https://github.com/gaurav98095.png" width="50px" height="50px" alt="gaurav98095 avatar"/> | Gaurav | [gaurav98095](https://github.com/gaurav98095) | Contributor | DB Schema, bugs | [#1](https://github.com/harshhh28/hia/pull/1), [#5](https://github.com/harshhh28/hia/pull/5), [#6](https://github.com/harshhh28/hia/pull/6), [#7](https://github.com/harshhh28/hia/pull/7) | Database Design, bugs |
+Submit pull requests
 
-<!-- To future contributors: Your profile will be added here when your PR is merged! -->
+Please follow the repository contribution guidelines before submitting changes.
 
-## 📄 License
+👨‍💻 Author
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/harshhh28/hia/blob/main/LICENSE) file for details.
-
-## 🙋‍♂️ Author
-
-Created by [Harsh Gajjar](https://harshgajjar.vercel.app)
+Marpu Adhitya
+AI / ML Engineer
+📧 adhimarpu@gmail.com
