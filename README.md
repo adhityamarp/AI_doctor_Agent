@@ -1,162 +1,132 @@
-🌟 Key Capabilities
-🤖 Intelligent Agent System
+## 🌟 Key Features
 
-This application is powered by a dual-agent architecture designed for medical report understanding and interaction.
+### 🤖 Intelligent Agent Architecture
+This application uses a dual-agent design to analyze and interact with medical reports.
 
-Analysis Engine
+**Analysis Agent**
+- Performs detailed medical report analysis
+- Uses contextual learning from previous analyses
+- Includes a built-in medical knowledge base for better explanations
 
-Performs detailed medical report analysis
+**Chat Agent**
+- Allows users to ask follow-up questions about the report
+- Implements Retrieval-Augmented Generation (RAG)
+- Uses FAISS vector search and HuggingFace embeddings for contextual responses
 
-Uses contextual learning from previous analyses
+---
 
-Integrates a built-in medical knowledge base for better explanations
+### 🧠 Smart Model Cascade
+The system integrates multiple LLM models via the Groq API with automatic fallback.
 
-Interactive Chat Agent
+Model priority flow:
 
-Enables follow-up questions about the report
+Primary → Secondary → Tertiary → Backup
 
-Implements Retrieval-Augmented Generation (RAG) using FAISS vector search and HuggingFace embeddings
+This ensures high reliability even if one model becomes unavailable.
 
-Provides contextual responses based on the uploaded report
+---
 
-🧠 Smart Model Selection
-
-The system uses a multi-model cascade strategy through the Groq API.
-
-If the primary model fails or is unavailable, the system automatically switches to fallback models.
-
-Model priority pipeline:
-
-Primary → Secondary → Tertiary → Backup Model
-
-This ensures high reliability and minimal downtime.
-
-💬 Persistent Chat Sessions
-
-Users can manage multiple analysis sessions.
+### 💬 Persistent Chat Sessions
+Users can create multiple report analysis sessions.
 
 Each session stores:
+- Uploaded medical report
+- Generated analysis
+- Chat history
 
-Uploaded medical report
+All session data is securely stored in Supabase.
 
-Generated analysis
+---
 
-Chat conversation history
+### 📄 Flexible Report Input
+Users can analyze reports in two ways:
 
-Session data is securely stored in Supabase.
-
-📄 Flexible Report Input
-
-Users can analyze reports using two options:
-
-• Upload a custom PDF medical report
-• Use a preloaded sample report for quick testing
+• Upload a medical PDF report  
+• Use a built-in sample report for testing
 
 System validation:
+- Maximum file size: 20MB
+- Maximum pages: 50
+- File type and content validation included
 
-Max file size: 20MB
+---
 
-Max pages: 50
-
-Validates medical-report structure
-
-🔒 Secure Authentication
-
+### 🔒 Secure Authentication
 Authentication is handled using Supabase Auth with:
 
-Secure login & registration
+- Secure login and signup
+- Session validation
+- Configurable session timeout
 
-Session validation
+---
 
-Configurable session timeout
-
-📊 Session Management
-
-The platform keeps a history of previous analyses.
-
+### 📊 Session History
 Users can:
+- View previous sessions
+- Switch between reports
+- Delete old sessions
+- Continue conversations after page reload
 
-Switch between sessions
+---
 
-View previous reports
-
-Delete old sessions
-
-Continue chat conversations even after page refresh
-
-🎨 Modern User Interface
-
-The application is built with a responsive UI using Streamlit.
+### 🎨 Modern UI
+The application is built using Streamlit with a responsive interface.
 
 Features include:
+- Sidebar session manager
+- User greeting
+- Real-time feedback
+- Clean and intuitive design
 
-Sidebar session manager
+---
 
-Personalized user greeting
+## 🛠 Tech Stack
 
-Real-time analysis feedback
+**Frontend**
+- Streamlit
 
-Clean and intuitive layout
+**AI / Machine Learning**
+- Groq LLM API
+- LangChain
+- HuggingFace Embeddings
+- FAISS Vector Store
 
-🛠 Technology Stack
-Frontend
+**Database**
+- Supabase (PostgreSQL)
 
-Streamlit
+Tables used:
+- users
+- chat_sessions
+- chat_messages
 
-AI / Machine Learning
+**Document Processing**
+- PDFPlumber (PDF text extraction)
+- filetype (file validation)
 
-Multi-model inference using Groq
+**Core Libraries**
+- LangChain
+- sentence-transformers
+- FAISS (CPU)
 
-Retrieval-Augmented Generation with LangChain
+---
 
-Vector search using FAISS
+## 🚀 Installation
 
-Embeddings via Sentence Transformers
+### Requirements
 
-Database
+- Python 3.8+
+- Streamlit
+- Supabase account
+- Groq API key
 
-Supabase (PostgreSQL)
-
-Database tables:
-
-users
-
-chat_sessions
-
-chat_messages
-
-Document Processing
-
-PDFPlumber
-
-File validation with filetype
-
-Core Libraries
-
-LangChain
-
-HuggingFace embeddings
-
-FAISS (CPU)
-
-sentence-transformers
-
-🚀 Installation Guide
-Prerequisites
-
-Before starting, ensure you have:
-
-Python 3.8 or higher
-
-Streamlit installed
-
-A Supabase account
-
-A Groq API key
+---
 
 1️⃣ Clone the Repository
+
+```bash
 git clone https://github.com/adhityamarp/AI_doctor_Agent.git
 cd AI_doctor_Agent
+
 2️⃣ Install Dependencies
 pip install -r requirements.txt
 3️⃣ Configure Environment Variables
@@ -165,34 +135,30 @@ Create the file:
 
 .streamlit/secrets.toml
 
-Add the following credentials:
+Add the following:
 
 SUPABASE_URL = "your-supabase-url"
 SUPABASE_KEY = "your-supabase-key"
 GROQ_API_KEY = "your-groq-api-key"
-4️⃣ Configure the Database
-
-The project requires three database tables:
-
-users
-chat_sessions
-chat_messages
+4️⃣ Setup Database
 
 Run the SQL script located at:
 
 public/db/script.sql
 
-This will initialize the complete schema.
+This will create the required tables:
 
-5️⃣ Launch the Application
+users
 
-Run the Streamlit app:
+chat_sessions
 
+chat_messages
+
+5️⃣ Run the Application
 streamlit run src/main.py
 
-After launching, open the provided local URL in your browser.
+📁 Project Structure
 
-📁 Project Architecture
 AI_doctor_Agent
 │
 ├── requirements.txt
@@ -200,7 +166,6 @@ AI_doctor_Agent
 │
 ├── src
 │   ├── main.py
-│   │
 │   ├── auth
 │   │   ├── auth_service.py
 │   │   └── session_manager.py
@@ -232,7 +197,7 @@ AI_doctor_Agent
     └── db
         ├── script.sql
         └── schema.png
-🤝 Contributions
+🤝 Contributing
 
 Contributions are welcome!
 
@@ -246,10 +211,8 @@ Suggest new features
 
 Submit pull requests
 
-Please follow the repository contribution guidelines before submitting changes.
-
 👨‍💻 Author
 
 Marpu Adhitya
 AI / ML Engineer
-📧 adhimarpu@gmail.com
+Email: adhimarpu@gmail.com
